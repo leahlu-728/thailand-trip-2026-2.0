@@ -40,6 +40,135 @@ window.TRIP_DATA = {
   ],
 
   transport: [
+     journeyCards: [
+    {
+      id: "lxr-bear-flights",
+      type: "航班",
+      label: "FLIGHT 01 / 03",
+      title: "lxr & 熊 · 往返航班",
+      travelers: "lxr、熊",
+      nextDeparture: "2026-09-29T23:40:00+08:00",
+      segments: [
+        {
+          date: "9月29日",
+          airline: "香港航空",
+          number: "HX767",
+          fromCode: "HKG",
+          fromCity: "香港",
+          toCode: "BKK",
+          toCity: "曼谷",
+          departure: "23:40",
+          arrival: "次日 01:40"
+        },
+        {
+          date: "10月6日",
+          airline: "国泰航空",
+          number: "CX750",
+          fromCode: "BKK",
+          fromCity: "曼谷",
+          toCode: "HKG",
+          toCity: "香港",
+          departure: "11:00",
+          arrival: "15:05"
+        }
+      ]
+    },
+    {
+      id: "cxl-flights",
+      type: "航班",
+      label: "FLIGHT 02 / 03",
+      title: "cxl · 往返航班",
+      travelers: "cxl",
+      nextDeparture: "2026-09-29T18:55:00+08:00",
+      segments: [
+        {
+          date: "9月29日",
+          airline: "澳门航空",
+          number: "NX992",
+          fromCode: "MFM",
+          fromCity: "澳门",
+          toCode: "BKK",
+          toCity: "曼谷",
+          departure: "18:55",
+          arrival: "21:10"
+        },
+        {
+          date: "10月6日",
+          airline: "澳门航空",
+          number: "NX935",
+          fromCode: "BKK",
+          fromCity: "曼谷",
+          toCode: "MFM",
+          toCity: "澳门",
+          departure: "14:40",
+          arrival: "18:25"
+        }
+      ]
+    },
+    {
+      id: "night-trains",
+      type: "夜间火车",
+      label: "TRAIN 03 / 03",
+      title: "全员 · 往返夜车",
+      travelers: "lxr、熊、cxl",
+      nextDeparture: "2026-10-02T18:40:00+07:00",
+      segments: [
+        {
+          date: "10月2日",
+          airline: "红丝绒夜间火车",
+          number: "车次待核对",
+          fromCode: "BKK",
+          fromCity: "曼谷",
+          toCode: "CNX",
+          toCity: "清迈",
+          departure: "18:40",
+          arrival: "次日 07:40"
+        },
+        {
+          date: "10月5日",
+          airline: "夜间火车",
+          number: "车次待核对",
+          fromCode: "CNX",
+          fromCity: "清迈",
+          toCode: "BKK",
+          toCity: "曼谷",
+          departure: "18:20",
+          arrival: "次日 06:20"
+        }
+      ]
+    }
+  ],
+
+  routeMap: {
+    image: "trip-map.png",
+    alt: "泰国曼谷至清迈往返旅行路线插画地图",
+    stops: [
+      {
+        number: 1,
+        city: "曼谷",
+        date: "9月29日－10月2日"
+      },
+      {
+        number: 2,
+        city: "清迈",
+        date: "10月3日－10月5日"
+      },
+      {
+        number: 3,
+        city: "曼谷",
+        date: "10月6日"
+      }
+    ],
+    navigationUrl:
+      "https://www.google.com/maps/dir/Bangkok,+Thailand/Chiang+Mai,+Thailand/Bangkok,+Thailand/"
+  },
+
+  sharedExpense: {
+    title: "多人共享记账",
+    description: "记录付款人、参与人、金额和费用类别，旅行结束后统一分账。",
+    url: "",
+    status: "待绑定在线表格"
+  },
     {
       date: "2026-09-29",
       category: "航班",
