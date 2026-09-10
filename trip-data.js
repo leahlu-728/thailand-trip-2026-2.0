@@ -866,7 +866,7 @@ window.TRIP_DATA = {
         },
         {
           time: "抵港后",
-          title: "lxr前往中山",
+          title: "lxr、熊前往中山",
           note:
             "具体交通方式、出发地点、过关安排和预计抵达时间待确认。",
           status: "待确认",
