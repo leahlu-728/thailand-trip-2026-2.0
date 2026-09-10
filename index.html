@@ -8,9 +8,10 @@
     content="width=device-width, initial-scale=1, viewport-fit=cover"
   >
 
+  <!-- FIX: description 补充天数信息，更具体 -->
   <meta
     name="description"
-    content="2026年泰国曼谷与清迈旅行攻略"
+    content="2026年泰国曼谷与清迈旅行攻略：每日行程、交通班次、酒店信息、景点预约与共享记账一站式查看。"
   >
 
   <meta name="theme-color" content="#102631">
@@ -61,16 +62,14 @@
       <p id="trip-dates" class="hero-date"></p>
       <p id="trip-travelers" class="hero-travelers"></p>
 
-      <div
-        id="hero-countdown"
-        class="hero-countdown"
-        aria-live="polite"
-      >
+      <!-- FIX: 倒计时移除 aria-live，避免屏幕阅读器被频繁播报 -->
+      <div id="hero-countdown" class="hero-countdown">
         正在计算出发倒计时
       </div>
 
       <div class="hero-actions">
-        <a class="button button-primary" href="#next-trip">
+        <!-- FIX: 原锚点 #next-trip 就在按钮正下方，点击等于没动，改为跳到每日行程 -->
+        <a class="button button-primary" href="#days">
           查看下一项
         </a>
 
@@ -119,6 +118,13 @@
 
       <div id="notice-list" class="notice-list"></div>
       <div id="overview-grid" class="overview-grid"></div>
+
+      <!-- FIX: JS 加载失败时的兜底提示 -->
+      <noscript>
+        <p class="noscript-tip">
+          此页面需要启用 JavaScript 才能显示行程数据，请开启后刷新。
+        </p>
+      </noscript>
     </section>
 
     <section class="section journey-section" id="journey">
@@ -165,10 +171,14 @@
           type="button"
           aria-label="全屏查看旅行路线图"
         >
+          <!-- FIX: 加 width/height 防止加载时页面跳动，缩略图懒加载 -->
           <img
             id="route-map-image"
             src="trip-map.png"
             alt="泰国曼谷至清迈往返旅行路线插画"
+            width="1200"
+            height="800"
+            loading="lazy"
           >
 
           <span class="fullscreen-label">点击查看大图</span>
@@ -177,12 +187,14 @@
         <div class="route-stops" id="route-stops"></div>
 
         <div class="route-actions">
+          <!-- FIX: 初始不可点击，由 JS 绑定真实链接后恢复 -->
           <a
             id="route-navigation"
-            class="map-button"
+            class="map-button disabled"
             href="#"
             target="_blank"
             rel="noopener noreferrer"
+            aria-disabled="true"
           >
             在 Google Maps 查看路线
           </a>
@@ -287,14 +299,16 @@
           </p>
         </div>
 
-        <a
+        <!-- FIX: 未绑定时改用 disabled 按钮，避免 href="#" 跳页顶；
+             JS 绑定表格后可动态换成真实 <a> -->
+        <button
           class="expense-button disabled"
           id="expense-link"
-          href="#"
-          aria-disabled="true"
+          type="button"
+          disabled
         >
           记账表格待绑定
-        </a>
+        </button>
       </article>
     </section>
 
@@ -370,12 +384,14 @@
     </section>
   </main>
 
+  <!-- FIX: 弹窗加 tabindex="-1" 以便 JS 聚焦；图片改用高分辨率版本 -->
   <div
     class="map-modal"
     id="map-modal"
     role="dialog"
     aria-modal="true"
     aria-label="旅行路线大图"
+    tabindex="-1"
     hidden
   >
     <button
@@ -388,7 +404,7 @@
     </button>
 
     <img
-      src="trip-map.png"
+      src="trip-map-large.png"
       alt="泰国曼谷至清迈往返旅行路线插画大图"
     >
   </div>
