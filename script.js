@@ -19,70 +19,142 @@ document.addEventListener("DOMContentLoaded", () => {
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
 
-  const mapUrl = (query) =>
-    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-      query
-    )}`;
+  const mapUrl = (place) =>
+    `https://www.google.com/maps/search/?api=1&query=${
+      encodeURIComponent(place)
+    }`;
 
-  const parseTripDate = (date) =>
+  const parseDate = (date) =>
     new Date(`${date}T12:00:00+07:00`);
 
-  const formatDate = (date, withYear = false) =>
-    new Intl.DateTimeFormat("zh-CN", {
-      timeZone: data.timezone,
-      year: withYear ? "numeric" : undefined,
+  function formatDate(date, includeYear = false) {
+    return new Intl.DateTimeFormat("zh-CN", {
+      year: includeYear ? "numeric" : undefined,
       month: "long",
       day: "numeric",
-      weekday: "long"
-    }).format(parseTripDate(date));
+      weekday: "long",
+      timeZone: data.timezone
+    }).format(parseDate(date));
+  }
 
-  const shortDate = (date) => {
+  function formatShortDate(date) {
     if (!date || date === "待确认") return "待确认";
 
     return new Intl.DateTimeFormat("zh-CN", {
-      timeZone: data.timezone,
       month: "numeric",
       day: "numeric",
-      weekday: "short"
-    }).format(parseTripDate(date));
-  };
+      weekday: "short",
+      timeZone: data.timezone
+    }).format(parseDate(date));
+  }
+
+  function formatDuration(milliseconds) {
+    if (milliseconds <= 0) return "已经开始";
+
+    const days = Math.floor(milliseconds / 86400000);
+    const hours = Math.floor(
+      (milliseconds % 86400000) / 3600000
+    );
+    const minutes = Math.floor(
+      (milliseconds % 3600000) / 60000
+    );
+
+    if (days > 0) {
+      return `${days}天 ${hours}小时 ${minutes}分钟`;
+    }
+
+    return `${hours}小时 ${minutes}分钟`;
+  }
 
   function renderHeader() {
     $("#trip-title").textContent = data.title;
+
     $("#trip-dates").textContent =
-      `${formatDate(data.startDate, true)} — ${formatDate(data.endDate, true)}`;
+      `${formatDate(data.startDate, true)}－` +
+      `${formatDate(data.endDate, true)}`;
+
     $("#trip-travelers").textContent =
       `同行人员：${data.travelers.join("、")}`;
   }
 
-  function updateCountdown() {
-    const box = $("#countdown");
+  function updateHeroCountdown() {
     const now = new Date();
     const start = new Date(`${data.startDate}T00:00:00+07:00`);
     const end = new Date(`${data.endDate}T23:59:59+07:00`);
+    const box = $("#hero-countdown");
 
     if (now < start) {
-      const milliseconds = start - now;
-      const days = Math.ceil(milliseconds / 86400000);
-      box.textContent = `距离出发还有 ${days} 天`;
+      box.textContent =
+        `距离出发还有 ${formatDuration(start - now)}`;
       return;
     }
 
     if (now <= end) {
       const dayNumber =
         Math.floor((now - start) / 86400000) + 1;
-      box.textContent = `旅途中 · Day ${Math.min(dayNumber, 8)}`;
+
+      box.textContent =
+        `旅途中 · Day ${Math.min(dayNumber, 8)}`;
       return;
     }
 
     box.textContent = "旅程已结束 · 美好回忆永久保存";
   }
 
+  function getNextEvent() {
+    const now = new Date();
+
+    return data.upcomingEvents
+      .map((event) => ({
+        ...event,
+        dateObject: new Date(event.datetime)
+      }))
+      .sort((a, b) => a.dateObject - b.dateObject)
+      .find((event) => event.dateObject > now);
+  }
+
+  function updateNextTrip() {
+    const next = getNextEvent();
+
+    if (!next) {
+      $("#next-trip-icon").textContent = "✓";
+      $("#next-trip-title").textContent =
+        "全部预定行程已经完成";
+      $("#next-trip-time").textContent = "";
+      $("#next-trip-countdown").textContent = "旅途愉快";
+      return;
+    }
+
+    const now = new Date();
+
+    const dateText = new Intl.DateTimeFormat("zh-CN", {
+      month: "numeric",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: data.timezone
+    }).format(next.dateObject);
+
+    $("#next-trip-icon").textContent = next.icon;
+
+    $("#next-trip-title").textContent =
+      next.title +
+      (next.approximate ? "（时间待确认）" : "");
+
+    $("#next-trip-time").textContent = dateText;
+
+    $("#next-trip-countdown").textContent =
+      formatDuration(next.dateObject - now);
+  }
+
   function renderNotices() {
-    $("#notices").innerHTML = data.notices
+    $("#notice-list").innerHTML = data.notices
       .map(
         (notice) => `
-          <div class="notice ${notice.type === "danger" ? "danger" : ""}">
+          <div class="notice ${
+            notice.type === "danger" ? "danger" : ""
+          }">
             ${notice.type === "danger" ? "⚠️" : "💡"}
             ${escapeHtml(notice.text)}
           </div>
@@ -92,22 +164,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderOverview() {
-    const nights = Math.round(
-      (parseTripDate(data.endDate) - parseTripDate(data.startDate)) /
-        86400000
-    );
+    const days =
+      Math.round(
+        (parseDate(data.endDate) - parseDate(data.startDate)) /
+          86400000
+      ) + 1;
 
     $("#overview-grid").innerHTML = `
       <article class="overview-card">
         <span>旅行日期</span>
-        <strong>${escapeHtml(shortDate(data.startDate))}－${escapeHtml(
-          shortDate(data.endDate)
-        )}</strong>
+        <strong>
+          ${escapeHtml(formatShortDate(data.startDate))}
+          －
+          ${escapeHtml(formatShortDate(data.endDate))}
+        </strong>
       </article>
 
       <article class="overview-card">
         <span>旅行时长</span>
-        <strong>${nights + 1}天 ${nights}夜</strong>
+        <strong>${days}天 ${days - 1}夜</strong>
       </article>
 
       <article class="overview-card">
@@ -126,36 +201,241 @@ document.addEventListener("DOMContentLoaded", () => {
       </article>
 
       <article class="overview-card">
-        <span>时区</span>
+        <span>当地时区</span>
         <strong>泰国时间 UTC+7</strong>
       </article>
     `;
   }
 
-  function statusLabel(item) {
-    if (!item.status) return "";
+  function getNextCardDeparture(card) {
+    const now = new Date();
 
-    let className = "pending";
+    return card.departures
+      .map((date) => new Date(date))
+      .sort((a, b) => a - b)
+      .find((date) => date > now);
+  }
 
-    if (item.status.includes("已")) {
-      className = "confirmed";
+  function renderJourneyCards() {
+    const track = $("#journey-track");
+
+    track.innerHTML = data.journeyCards
+      .map((card) => {
+        const segments = card.segments
+          .map(
+            (segment) => `
+              <section class="journey-segment">
+                <div class="segment-meta">
+                  <span>${escapeHtml(segment.date)}</span>
+
+                  <span>
+                    ${escapeHtml(segment.provider)}
+                    ·
+                    ${escapeHtml(segment.number)}
+                  </span>
+                </div>
+
+                <div class="airport-route">
+                  <div class="airport">
+                    <strong class="airport-code">
+                      ${escapeHtml(segment.fromCode)}
+                    </strong>
+
+                    <span class="airport-city">
+                      ${escapeHtml(segment.fromCity)}
+                    </span>
+                  </div>
+
+                  <div class="route-arrow" aria-hidden="true">
+                    <span>→</span>
+                    <small>${escapeHtml(segment.mode)}</small>
+                  </div>
+
+                  <div class="airport">
+                    <strong class="airport-code">
+                      ${escapeHtml(segment.toCode)}
+                    </strong>
+
+                    <span class="airport-city">
+                      ${escapeHtml(segment.toCity)}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="segment-times">
+                  <span>
+                    ${escapeHtml(segment.departure)} 出发
+                  </span>
+
+                  <span>
+                    ${escapeHtml(segment.arrival)} 抵达
+                  </span>
+                </div>
+              </section>
+            `
+          )
+          .join("");
+
+        return `
+          <article class="journey-card">
+            <p class="journey-card-label">
+              ${escapeHtml(card.label)}
+            </p>
+
+            <h3>${escapeHtml(card.title)}</h3>
+
+            <p class="journey-travelers">
+              ${escapeHtml(card.travelers)}
+            </p>
+
+            ${segments}
+
+            <div class="journey-countdown">
+              <span>距离本组下一段出发</span>
+
+              <strong
+                data-card-countdown="${escapeHtml(card.title)}"
+              >
+                正在计算
+              </strong>
+            </div>
+          </article>
+        `;
+      })
+      .join("");
+
+    $("#journey-dots").innerHTML = data.journeyCards
+      .map(
+        (_, index) => `
+          <button
+            class="journey-dot ${index === 0 ? "active" : ""}"
+            type="button"
+            data-slide="${index}"
+            aria-label="查看第${index + 1}张交通卡"
+          ></button>
+        `
+      )
+      .join("");
+
+    setupJourneySlider();
+    updateJourneyCountdowns();
+  }
+
+  function updateJourneyCountdowns() {
+    document
+      .querySelectorAll("[data-card-countdown]")
+      .forEach((element, index) => {
+        const card = data.journeyCards[index];
+        const next = getNextCardDeparture(card);
+
+        element.textContent = next
+          ? formatDuration(next - new Date())
+          : "本组行程已结束";
+      });
+  }
+
+  function setupJourneySlider() {
+    const track = $("#journey-track");
+    const cards = [...track.querySelectorAll(".journey-card")];
+    const dots = [
+      ...document.querySelectorAll(".journey-dot")
+    ];
+    const page = $("#journey-page");
+
+    function activate(index) {
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle(
+          "active",
+          dotIndex === index
+        );
+      });
+
+      page.textContent = `${index + 1} / ${cards.length}`;
     }
 
-    return `
-      <span class="card-label ${className}">
-        ${escapeHtml(item.status)}
-      </span>
-    `;
+    function detectCard() {
+      const center =
+        track.scrollLeft + track.clientWidth / 2;
+
+      let activeIndex = 0;
+      let shortestDistance = Infinity;
+
+      cards.forEach((card, index) => {
+        const cardCenter =
+          card.offsetLeft + card.offsetWidth / 2;
+
+        const distance =
+          Math.abs(cardCenter - center);
+
+        if (distance < shortestDistance) {
+          shortestDistance = distance;
+          activeIndex = index;
+        }
+      });
+
+      activate(activeIndex);
+    }
+
+    let scrollTimer;
+
+    track.addEventListener("scroll", () => {
+      window.clearTimeout(scrollTimer);
+
+      scrollTimer = window.setTimeout(
+        detectCard,
+        70
+      );
+    });
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        cards[index].scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center"
+        });
+      });
+    });
+
+    activate(0);
+  }
+
+  function renderRouteMap() {
+    const route = data.routeMap;
+    const image = $("#route-map-image");
+
+    image.src = route.image;
+    image.alt = route.alt;
+
+    $("#route-navigation").href =
+      route.navigationUrl;
+
+    $("#route-stops").innerHTML = route.stops
+      .map(
+        (stop) => `
+          <div class="route-stop">
+            <span class="route-stop-number">
+              ${escapeHtml(stop.number)}
+            </span>
+
+            <strong>${escapeHtml(stop.city)}</strong>
+            <small>${escapeHtml(stop.date)}</small>
+          </div>
+        `
+      )
+      .join("");
   }
 
   function renderDays() {
-    $("#days-list").innerHTML = data.days
+    $("#day-list").innerHTML = data.days
       .map((day, index) => {
         const items = day.items
           .map(
             (item) => `
               <li class="timeline-item">
-                <div class="timeline-time">${escapeHtml(item.time)}</div>
+                <div class="timeline-time">
+                  ${escapeHtml(item.time)}
+                </div>
 
                 <div class="timeline-content">
                   <h4>${escapeHtml(item.title)}</h4>
@@ -168,11 +448,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                   ${
                     item.status
-                      ? `<span class="card-label ${
-                          item.status.includes("已")
-                            ? "confirmed"
-                            : "pending"
-                        }">${escapeHtml(item.status)}</span>`
+                      ? `
+                        <span class="status ${
+                          item.status.includes("待")
+                            ? "pending"
+                            : ""
+                        }">
+                          ${escapeHtml(item.status)}
+                        </span>
+                      `
                       : ""
                   }
 
@@ -197,21 +481,25 @@ document.addEventListener("DOMContentLoaded", () => {
           .join("");
 
         return `
-          <article class="day-card ${day.risk ? "risk-day" : ""}">
+          <article class="day-card ${
+            day.risk ? "risk" : ""
+          }">
             <header class="day-header">
               <div>
                 <p class="day-date">
-                  Day ${index + 1} · ${escapeHtml(formatDate(day.date))}
+                  Day ${index + 1} ·
+                  ${escapeHtml(formatDate(day.date))}
                 </p>
+
                 <h3>${escapeHtml(day.title)}</h3>
               </div>
 
-              <span class="day-city">${escapeHtml(day.city)}</span>
+              <span class="city-tag">
+                ${escapeHtml(day.city)}
+              </span>
             </header>
 
-            <ol class="timeline">
-              ${items}
-            </ol>
+            <ol class="timeline">${items}</ol>
 
             ${
               day.warning
@@ -233,7 +521,9 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(
         (item) => `
           <article class="info-card">
-            <span class="card-label ${item.risk ? "risk" : ""}">
+            <span class="status ${
+              item.risk ? "danger" : ""
+            }">
               ${escapeHtml(item.category)}
               ${item.risk ? " · 衔接风险" : ""}
             </span>
@@ -246,7 +536,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <dl>
               <div class="info-row">
                 <dt>日期</dt>
-                <dd>${escapeHtml(shortDate(item.date))}</dd>
+                <dd>${escapeHtml(formatShortDate(item.date))}</dd>
               </div>
 
               <div class="info-row">
@@ -256,13 +546,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
               <div class="info-row">
                 <dt>路线</dt>
-                <dd>${escapeHtml(item.from)} → ${escapeHtml(item.to)}</dd>
+                <dd>
+                  ${escapeHtml(item.from)}
+                  →
+                  ${escapeHtml(item.to)}
+                </dd>
               </div>
 
               <div class="info-row">
                 <dt>时间</dt>
                 <dd>
-                  ${escapeHtml(item.departure)} → ${escapeHtml(item.arrival)}
+                  ${escapeHtml(item.departure)}
+                  →
+                  ${escapeHtml(item.arrival)}
                 </dd>
               </div>
 
@@ -293,7 +589,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(
         (hotel) => `
           <article class="info-card">
-            <span class="card-label confirmed">
+            <span class="status">
               ${escapeHtml(hotel.status)}
             </span>
 
@@ -307,12 +603,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
               <div class="info-row">
                 <dt>入住</dt>
-                <dd>${escapeHtml(shortDate(hotel.checkin))}</dd>
+                <dd>${escapeHtml(formatShortDate(hotel.checkin))}</dd>
               </div>
 
               <div class="info-row">
                 <dt>退房</dt>
-                <dd>${escapeHtml(shortDate(hotel.checkout))}</dd>
+                <dd>${escapeHtml(formatShortDate(hotel.checkout))}</dd>
               </div>
 
               <div class="info-row">
@@ -375,7 +671,13 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(
         (booking) => `
           <article class="info-card">
-            ${statusLabel(booking)}
+            <span class="status ${
+              booking.status.includes("待")
+                ? "pending"
+                : ""
+            }">
+              ${escapeHtml(booking.status)}
+            </span>
 
             <h3>${escapeHtml(booking.name)}</h3>
 
@@ -386,7 +688,9 @@ document.addEventListener("DOMContentLoaded", () => {
                   ${
                     booking.date === "待确认"
                       ? "待确认"
-                      : escapeHtml(shortDate(booking.date))
+                      : escapeHtml(
+                          formatShortDate(booking.date)
+                        )
                   }
                 </dd>
               </div>
@@ -407,91 +711,151 @@ document.addEventListener("DOMContentLoaded", () => {
       .join("");
   }
 
-  function safeReadStorage(key) {
+  function renderSharedExpense() {
+    const expense = data.sharedExpense;
+    const link = $("#expense-link");
+
+    $("#expense-title").textContent =
+      expense.title;
+
+    $("#expense-description").textContent =
+      expense.description;
+
+    $("#expense-status").textContent =
+      expense.status;
+
+    if (expense.url) {
+      link.href = expense.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "打开共享账本 ↗";
+      link.classList.remove("disabled");
+      link.removeAttribute("aria-disabled");
+    } else {
+      link.href = "#";
+      link.textContent = "记账表格待绑定";
+      link.classList.add("disabled");
+      link.setAttribute("aria-disabled", "true");
+
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+      });
+    }
+  }
+
+  function readStorage(key) {
     try {
-      return JSON.parse(localStorage.getItem(key) || "{}");
+      return JSON.parse(
+        localStorage.getItem(key) || "{}"
+      );
     } catch {
       return {};
     }
   }
 
-  function renderChecklist(containerId, items, storageKey) {
-    const container = document.getElementById(containerId);
-    const saved = safeReadStorage(storageKey);
+  function renderChecklist(containerId, items, key) {
+    const saved = readStorage(key);
 
-    container.innerHTML = items
-      .map(
-        (item, index) => `
-          <label class="check-item">
-            <input
-              type="checkbox"
-              data-storage-key="${escapeHtml(storageKey)}"
-              data-index="${index}"
-              ${saved[index] ? "checked" : ""}
-            >
-            <span>${escapeHtml(item)}</span>
-          </label>
-        `
-      )
-      .join("");
+    document.getElementById(containerId).innerHTML =
+      items
+        .map(
+          (item, index) => `
+            <label class="check-item">
+              <input
+                type="checkbox"
+                data-key="${escapeHtml(key)}"
+                data-index="${index}"
+                ${saved[index] ? "checked" : ""}
+              >
+
+              <span>${escapeHtml(item)}</span>
+            </label>
+          `
+        )
+        .join("");
   }
 
-  function bindChecklistEvents() {
+  function setupChecklist() {
     document.addEventListener("change", (event) => {
-      const input = event.target.closest(
-        'input[type="checkbox"][data-storage-key]'
+      const checkbox = event.target.closest(
+        'input[type="checkbox"][data-key]'
       );
 
-      if (!input) return;
+      if (!checkbox) return;
 
-      const storageKey = input.dataset.storageKey;
-      const index = input.dataset.index;
-      const saved = safeReadStorage(storageKey);
+      const key = checkbox.dataset.key;
+      const saved = readStorage(key);
 
-      saved[index] = input.checked;
-      localStorage.setItem(storageKey, JSON.stringify(saved));
+      saved[checkbox.dataset.index] =
+        checkbox.checked;
+
+      localStorage.setItem(
+        key,
+        JSON.stringify(saved)
+      );
     });
 
-    document.querySelectorAll("[data-reset-list]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const list = button.dataset.resetList;
-        const storageKey =
-          list === "todos" ? "thailandTripTodos" : "thailandTripPacking";
+    document
+      .querySelectorAll("[data-reset]")
+      .forEach((button) => {
+        button.addEventListener("click", () => {
+          const type = button.dataset.reset;
 
-        localStorage.removeItem(storageKey);
+          const key =
+            type === "todos"
+              ? "thailand-2026-todos"
+              : "thailand-2026-packing";
 
-        if (list === "todos") {
-          renderChecklist("todo-list", data.todos, storageKey);
-        } else {
-          renderChecklist("packing-list", data.packing, storageKey);
-        }
+          localStorage.removeItem(key);
+
+          if (type === "todos") {
+            renderChecklist(
+              "todo-list",
+              data.todos,
+              key
+            );
+          } else {
+            renderChecklist(
+              "packing-list",
+              data.packing,
+              key
+            );
+          }
+        });
       });
-    });
   }
 
-  function renderEmptySections() {
-    $("#budget-content").innerHTML = data.budget.length
-      ? ""
-      : `
-        <div class="empty-state">
-          <strong>预算待补充</strong>
-          <p>
-            尚未提供总预算或交通、住宿、餐饮、门票等分类预算。
-          </p>
-        </div>
-      `;
+  function setupMapModal() {
+    const modal = $("#map-modal");
+    const openButton = $("#open-map");
+    const closeButton = $("#close-map");
 
-    $("#emergency-content").innerHTML = data.emergency.length
-      ? ""
-      : `
-        <div class="empty-state">
-          <strong>紧急信息待补充</strong>
-          <p>
-            建议出发前补充旅行保险电话、紧急联系人和领事保护信息。
-            请勿把护照号码等敏感信息放在公开网站。
-          </p>
-        </div>
-      `;
+    function openModal() {
+      modal.hidden = false;
+      document.body.classList.add("modal-open");
+      closeButton.focus();
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.body.classList.remove("modal-open");
+      openButton.focus();
+    }
+
+    openButton.addEventListener("click", openModal);
+    closeButton.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !modal.hidden) {
+        closeModal();
+      }
+    });
   }
 
   function setupNavigation() {
@@ -499,43 +863,60 @@ document.addEventListener("DOMContentLoaded", () => {
     const links = $("#nav-links");
 
     toggle.addEventListener("click", () => {
-      const isOpen = links.classList.toggle("open");
-      toggle.setAttribute("aria-expanded", String(isOpen));
+      const open = links.classList.toggle("open");
+
+      toggle.setAttribute(
+        "aria-expanded",
+        String(open)
+      );
     });
 
     links.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
         links.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
+
+        toggle.setAttribute(
+          "aria-expanded",
+          "false"
+        );
       });
     });
   }
 
   renderHeader();
-  updateCountdown();
   renderNotices();
   renderOverview();
+  renderJourneyCards();
+  renderRouteMap();
   renderDays();
   renderTransport();
   renderHotels();
   renderPlaces();
   renderBookings();
+  renderSharedExpense();
 
   renderChecklist(
     "todo-list",
     data.todos,
-    "thailandTripTodos"
+    "thailand-2026-todos"
   );
 
   renderChecklist(
     "packing-list",
     data.packing,
-    "thailandTripPacking"
+    "thailand-2026-packing"
   );
 
-  renderEmptySections();
-  bindChecklistEvents();
+  updateHeroCountdown();
+  updateNextTrip();
+
+  setupChecklist();
+  setupMapModal();
   setupNavigation();
 
-  window.setInterval(updateCountdown, 60 * 60 * 1000);
+  window.setInterval(() => {
+    updateHeroCountdown();
+    updateNextTrip();
+    updateJourneyCountdowns();
+  }, 60000);
 });
