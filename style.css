@@ -1140,3 +1140,69 @@ img {
     text-align: center;
   }
 }
+/* 单航段交通滑片 */
+
+.journey-card {
+  min-height: 460px;
+}
+
+.journey-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.journey-mode-icon {
+  display: grid;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(167, 223, 220, 0.22);
+  border-radius: 50%;
+  background: rgba(167, 223, 220, 0.08);
+  font-size: 1.25rem;
+}
+
+.single-route {
+  margin-top: 30px;
+  margin-bottom: 22px;
+}
+
+.journey-note {
+  min-height: 52px;
+  margin: 22px 0 0;
+  padding: 14px;
+  border-radius: 12px;
+  color: #bfd0d4;
+  background: rgba(255, 255, 255, 0.055);
+  font-size: 0.88rem;
+}
+
+.journey-card-risk {
+  outline: 2px solid rgba(248, 113, 113, 0.72);
+  outline-offset: -2px;
+}
+
+.journey-risk {
+  margin-top: 12px;
+  padding: 11px 13px;
+  border: 1px solid rgba(254, 202, 202, 0.25);
+  border-radius: 10px;
+  color: #fecaca;
+  background: rgba(185, 28, 28, 0.18);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+@media (max-width: 620px) {
+  .journey-card {
+    min-height: 430px;
+  }
+
+  .journey-note {
+    min-height: auto;
+  }
+}
