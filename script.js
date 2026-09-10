@@ -58,12 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const minutes = Math.floor(
       (milliseconds % 3600000) / 60000
     );
+    const seconds = Math.floor(
+      (milliseconds % 60000) / 1000
+    );
 
     if (days > 0) {
-      return `${days}天 ${hours}小时 ${minutes}分钟`;
+      return `${days}天 ${hours}小时 ${minutes}分 ${seconds}秒`;
     }
 
-    return `${hours}小时 ${minutes}分钟`;
+    return `${hours}小时 ${minutes}分 ${seconds}秒`;
   }
 
   function renderHeader() {
@@ -911,6 +914,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateHeroCountdown();
   updateNextTrip();
+  updateJourneyCountdowns();
 
   setupChecklist();
   setupMapModal();
@@ -920,5 +924,5 @@ document.addEventListener("DOMContentLoaded", () => {
     updateHeroCountdown();
     updateNextTrip();
     updateJourneyCountdowns();
-  }, 60000);
+  }, 1000);
 });
