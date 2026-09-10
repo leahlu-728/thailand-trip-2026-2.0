@@ -20,40 +20,69 @@ window.TRIP_DATA = {
 
   journeyCards: [
     {
-      label: "FLIGHT 01 / 03",
-      title: "lxr & 熊 · 往返航班",
-      travelers: "lxr、熊",
-      departures: [
-        "2026-09-29T23:40:00+08:00",
-        "2026-10-06T11:00:00+07:00"
-      ],
-      segments: [
-        {
-          date: "9月29日",
-          provider: "香港航空",
-          number: "HX767",
-          fromCode: "HKG",
-          fromCity: "香港",
-          toCode: "BKK",
-          toCity: "曼谷",
-          departure: "23:40",
-          arrival: "次日 01:40",
-          mode: "FLIGHT"
-        },
-        {
-          date: "10月6日",
-          provider: "国泰航空",
-          number: "CX750",
-          fromCode: "BKK",
-          fromCity: "曼谷",
-          toCode: "HKG",
-          toCity: "香港",
-          departure: "11:00",
-          arrival: "15:05",
-          mode: "FLIGHT"
-        }
-      ]
+      {
+  label: "FLIGHT 01 / 03",
+  title: "lxr、熊 · 航班与接驳",
+  travelers: "lxr、熊（上海接驳仅限lxr）",
+
+  departures: [
+    "2026-09-29T14:40:00+08:00",
+    "2026-09-29T23:40:00+08:00",
+    "2026-10-06T11:00:00+07:00",
+    "2026-10-08T07:15:00+08:00"
+  ],
+
+  segments: [
+    {
+      date: "9月29日",
+      provider: "东方航空",
+      number: "MU5343 · 仅lxr",
+      fromCode: "PVG",
+      fromCity: "上海浦东T1",
+      toCode: "SZX",
+      toCity: "深圳宝安T3",
+      departure: "14:40",
+      arrival: "17:30",
+      mode: "FLIGHT"
     },
+    {
+      date: "9月29日",
+      provider: "香港航空",
+      number: "HX767 · lxr、熊",
+      fromCode: "HKG",
+      fromCity: "香港T2",
+      toCode: "BKK",
+      toCity: "曼谷",
+      departure: "23:40",
+      arrival: "次日 01:40",
+      mode: "FLIGHT"
+    },
+    {
+      date: "10月6日",
+      provider: "国泰航空",
+      number: "CX750 · lxr、熊",
+      fromCode: "BKK",
+      fromCity: "曼谷",
+      toCode: "HKG",
+      toCity: "香港T1",
+      departure: "11:00",
+      arrival: "15:05",
+      mode: "FLIGHT"
+    },
+    {
+      date: "10月8日",
+      provider: "东方航空",
+      number: "MU5332 · 仅lxr",
+      fromCode: "SZX",
+      fromCity: "深圳宝安T3",
+      toCode: "PVG",
+      toCity: "上海浦东T1",
+      departure: "07:15",
+      arrival: "09:45",
+      mode: "FLIGHT"
+    }
+  ]
+},
     {
       label: "FLIGHT 02 / 03",
       title: "cxl · 往返航班",
@@ -151,77 +180,109 @@ window.TRIP_DATA = {
   },
 
   upcomingEvents: [
-    {
-      datetime: "2026-09-29T18:55:00+08:00",
-      title: "cxl · 澳门航空NX992 澳门→曼谷",
-      icon: "✈️"
-    },
-    {
-      datetime: "2026-09-29T23:40:00+08:00",
-      title: "lxr、熊 · 香港航空HX767 香港→曼谷",
-      icon: "✈️"
-    },
-    {
-      datetime: "2026-09-30T05:15:00+07:00",
-      title: "搭乘第一班地铁前往酒店",
-      icon: "🚇"
-    },
-    {
-      datetime: "2026-09-30T17:49:00+07:00",
-      title: "IconSiam码头 · 湄南河观光船",
-      icon: "⛴️"
-    },
-    {
-      datetime: "2026-10-02T13:30:00+07:00",
-      title: "Bangkok Shooting Range射击体验",
-      icon: "🎯",
-      approximate: true
-    },
-    {
-      datetime: "2026-10-02T18:40:00+07:00",
-      title: "曼谷→清迈 · 红丝绒夜间火车",
-      icon: "🚆"
-    },
-    {
-      datetime: "2026-10-03T07:40:00+07:00",
-      title: "夜间火车抵达清迈",
-      icon: "🚆"
-    },
-    {
-      datetime: "2026-10-04T09:00:00+07:00",
-      title: "粘粘瀑布 · 包车出发",
-      icon: "🏞️",
-      approximate: true
-    },
-    {
-      datetime: "2026-10-04T13:00:00+07:00",
-      title: "Skyline丛林飞跃酒店接送",
-      icon: "🌳"
-    },
-    {
-      datetime: "2026-10-05T18:20:00+07:00",
-      title: "清迈→曼谷 · 夜间火车",
-      icon: "🚆"
-    },
-    {
-      datetime: "2026-10-06T06:20:00+07:00",
-      title: "夜间火车抵达曼谷并前往机场",
-      icon: "⚠️"
-    },
-    {
-      datetime: "2026-10-06T11:00:00+07:00",
-      title: "lxr、熊 · 国泰CX750曼谷→香港",
-      icon: "✈️"
-    },
-    {
-      datetime: "2026-10-06T14:40:00+07:00",
-      title: "cxl · 澳门航空NX935曼谷→澳门",
-      icon: "✈️"
-    }
-  ],
-
+  {
+    datetime: "2026-09-29T14:40:00+08:00",
+    title: "lxr · 东方航空MU5343 上海浦东T1→深圳宝安T3",
+    icon: "✈️"
+  },
+  {
+    datetime: "2026-09-29T18:55:00+08:00",
+    title: "cxl · 澳门航空NX992 澳门→曼谷",
+    icon: "✈️"
+  },
+  {
+    datetime: "2026-09-29T23:40:00+08:00",
+    title: "lxr、熊 · 香港航空HX767 香港→曼谷",
+    icon: "✈️"
+  },
+  {
+    datetime: "2026-09-30T05:15:00+07:00",
+    title: "搭乘第一班地铁前往酒店",
+    icon: "🚇"
+  },
+  {
+    datetime: "2026-09-30T17:49:00+07:00",
+    title: "IconSiam码头 · 湄南河观光船",
+    icon: "⛴️"
+  },
+  {
+    datetime: "2026-10-02T13:30:00+07:00",
+    title: "Bangkok Shooting Range射击体验",
+    icon: "🎯",
+    approximate: true
+  },
+  {
+    datetime: "2026-10-02T18:40:00+07:00",
+    title: "曼谷→清迈 · 红丝绒夜间火车",
+    icon: "🚆"
+  },
+  {
+    datetime: "2026-10-03T07:40:00+07:00",
+    title: "夜间火车抵达清迈",
+    icon: "🚆"
+  },
+  {
+    datetime: "2026-10-04T09:00:00+07:00",
+    title: "粘粘瀑布 · 包车出发",
+    icon: "🏞️",
+    approximate: true
+  },
+  {
+    datetime: "2026-10-04T13:00:00+07:00",
+    title: "Skyline丛林飞跃酒店接送",
+    icon: "🌳"
+  },
+  {
+    datetime: "2026-10-05T18:20:00+07:00",
+    title: "清迈→曼谷 · 夜间火车",
+    icon: "🚆"
+  },
+  {
+    datetime: "2026-10-06T06:20:00+07:00",
+    title: "夜间火车抵达曼谷并前往机场",
+    icon: "⚠️"
+  },
+  {
+    datetime: "2026-10-06T11:00:00+07:00",
+    title: "lxr、熊 · 国泰CX750 曼谷→香港",
+    icon: "✈️"
+  },
+  {
+    datetime: "2026-10-06T14:40:00+07:00",
+    title: "cxl · 澳门航空NX935 曼谷→澳门",
+    icon: "✈️"
+  },
+  {
+    datetime: "2026-10-06T17:00:00+08:00",
+    title: "lxr抵达香港后前往中山",
+    icon: "🚗",
+    approximate: true
+  },
+  {
+    datetime: "2026-10-08T04:30:00+08:00",
+    title: "lxr由中山出发前往深圳宝安机场",
+    icon: "🚗",
+    approximate: true
+  },
+  {
+    datetime: "2026-10-08T07:15:00+08:00",
+    title: "lxr · 东方航空MU5332 深圳宝安T3→上海浦东T1",
+    icon: "✈️"
+  }
+],
   transport: [
-    {
+  {
+  date: "2026-09-29",
+  category: "接驳航班",
+  provider: "东方航空",
+  number: "MU5343",
+  travelers: "lxr",
+  from: "上海浦东国际机场 T1",
+  to: "深圳宝安国际机场 T3",
+  departure: "14:40",
+  arrival: "17:30",
+  status: "已确认"
+},
       date: "2026-09-29",
       category: "航班",
       provider: "澳门航空",
@@ -293,7 +354,19 @@ window.TRIP_DATA = {
       departure: "14:40",
       arrival: "18:25",
       status: "已确认"
-    }
+    },
+{
+  date: "2026-10-08",
+  category: "返程接驳航班",
+  provider: "东方航空",
+  number: "MU5332",
+  travelers: "lxr",
+  from: "深圳宝安国际机场 T3",
+  to: "上海浦东国际机场 T1",
+  departure: "07:15",
+  arrival: "09:45",
+  status: "已确认"
+}
   ],
 
   hotels: [
@@ -319,24 +392,37 @@ window.TRIP_DATA = {
 
   days: [
     {
-      date: "2026-09-29",
-      city: "香港／澳门→曼谷",
-      title: "启程",
-      items: [
-        {
-          time: "18:55",
-          title: "cxl乘澳门航空NX992",
-          note: "澳门出发，21:10抵达曼谷。",
-          place: "Macau International Airport"
-        },
-        {
-          time: "23:40",
-          title: "lxr、熊乘香港航空HX767",
-          note: "香港国际机场T2出发，次日01:40抵达曼谷。",
-          place: "Hong Kong International Airport Terminal 2"
-        }
-      ]
+  date: "2026-09-29",
+  city: "上海／香港／澳门→曼谷",
+  title: "启程与前程接驳",
+  items: [
+    {
+      time: "14:40",
+      title: "lxr乘东方航空MU5343",
+      note: "上海浦东国际机场T1出发，17:30抵达深圳宝安国际机场T3。",
+      place: "Shanghai Pudong International Airport Terminal 1"
     },
+    {
+      time: "抵深后",
+      title: "lxr由深圳前往香港机场",
+      note:
+        "深圳宝安机场至香港机场的具体交通方式、过关时间及行李安排待确认。",
+      status: "待确认"
+    },
+    {
+      time: "18:55",
+      title: "cxl乘澳门航空NX992",
+      note: "澳门出发，21:10抵达曼谷。",
+      place: "Macau International Airport"
+    },
+    {
+      time: "23:40",
+      title: "lxr、熊乘香港航空HX767",
+      note: "香港国际机场T2出发，次日01:40抵达曼谷。",
+      place: "Hong Kong International Airport Terminal 2"
+    }
+  ]
+},
     {
       date: "2026-09-30",
       city: "曼谷",
@@ -602,10 +688,51 @@ window.TRIP_DATA = {
           note: "曼谷起飞，15:05抵达香港国际机场T1。"
         },
         {
+  time: "15:05",
+  title: "lxr、熊抵达香港",
+  note: "抵达香港国际机场T1。"
+},
+{
+  time: "抵港后",
+  title: "lxr前往中山",
+  note:
+    "具体交通方式、出发地点、过关安排和预计抵达时间待确认。",
+  status: "待确认",
+  place: "Zhongshan Guangdong"
+},
+        {
           time: "14:40",
           title: "cxl乘澳门航空NX935",
           note: "曼谷起飞，18:25抵达澳门。"
-        }
+        },
+        {
+  date: "2026-10-08",
+  city: "中山→深圳→上海",
+  title: "lxr返程接驳",
+  items: [
+    {
+      time: "待确认",
+      title: "由中山出发前往深圳宝安机场",
+      note:
+        "需要根据道路情况、航班值机截止时间和托运行李安排确认送机出发时间。",
+      status: "待确认",
+      place: "Shenzhen Bao'an International Airport Terminal 3"
+    },
+    {
+      time: "07:15",
+      title: "lxr乘东方航空MU5332",
+      note:
+        "深圳宝安国际机场T3出发，09:45抵达上海浦东国际机场T1。",
+      place: "Shenzhen Bao'an International Airport Terminal 3"
+    },
+    {
+      time: "09:45",
+      title: "抵达上海浦东机场",
+      note: "抵达上海浦东国际机场T1。",
+      place: "Shanghai Pudong International Airport Terminal 1"
+    }
+  ]
+}
       ]
     }
   ],
