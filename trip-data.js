@@ -7,16 +7,6 @@ window.TRIP_DATA = {
 
   notices: [
     {
-      type: "danger",
-      text:
-        "高风险衔接：9月29日17:30抵达深圳宝安机场后，lxr需要跨境前往香港机场，衔接23:40起飞的HX767。请确认跨境交通、行李、过关时间和航班值机截止时间。"
-    },
-    {
-      type: "danger",
-      text:
-        "高风险衔接：10月6日06:20夜车抵达曼谷后，lxr、熊需要赶11:00国际航班。车站至机场交通时间、值机截止时间及夜车延误风险均待核实。"
-    },
-    {
       type: "warning",
       text:
         "价格、营业时间、签证及入境要求、预约状态和交通规则，请在出发前再次核对。"
@@ -24,285 +14,157 @@ window.TRIP_DATA = {
   ],
 
   journeyCards: [
-  {
-    label: "FLIGHT 01 / 08",
-    type: "航班",
-    date: "2026-09-29",
-    dateLabel: "9月29日",
-    title: "东方航空 MU5343",
-    travelers: "lxr",
-    departureDateTime: "2026-09-29T14:40:00+08:00",
-    provider: "东方航空",
-    number: "MU5343",
-    fromCode: "PVG",
-    fromCity: "上海浦东 T1",
-    toCode: "SZX",
-    toCity: "深圳宝安 T3",
-    departure: "14:40",
-    arrival: "17:30",
-    mode: "FLIGHT",
-    note: "抵达深圳后，lxr需前往香港机场衔接HX767。"
-  },
-  {
-    label: "FLIGHT 02 / 08",
-    type: "航班",
-    date: "2026-09-29",
-    dateLabel: "9月29日",
-    title: "澳门航空 NX992",
-    travelers: "cxl",
-    departureDateTime: "2026-09-29T18:55:00+08:00",
-    provider: "澳门航空",
-    number: "NX992",
-    fromCode: "MFM",
-    fromCity: "澳门",
-    toCode: "BKK",
-    toCity: "曼谷",
-    departure: "18:55",
-    arrival: "21:10",
-    mode: "FLIGHT",
-    note: "抵达曼谷素万纳普机场。"
-  },
-  {
-    label: "FLIGHT 03 / 08",
-    type: "航班",
-    date: "2026-09-29",
-    dateLabel: "9月29日",
-    title: "香港航空 HX767",
-    travelers: "lxr、熊",
-    departureDateTime: "2026-09-29T23:40:00+08:00",
-    provider: "香港航空",
-    number: "HX767",
-    fromCode: "HKG",
-    fromCity: "香港 T2",
-    toCode: "BKK",
-    toCity: "曼谷",
-    departure: "23:40",
-    arrival: "次日 01:40",
-    mode: "FLIGHT",
-    note: "跨日航班，9月30日01:40抵达曼谷。"
-  },
-  {
-    label: "TRAIN 04 / 08",
-    type: "夜班火车",
-    date: "2026-10-02",
-    dateLabel: "10月2日",
-    title: "曼谷 → 清迈夜班火车",
-    travelers: "lxr、熊、cxl",
-    departureDateTime: "2026-10-02T18:40:00+07:00",
-    provider: "红丝绒夜间火车",
-    number: "车次待核对",
-    fromCode: "BKK",
-    fromCity: "曼谷",
-    toCode: "CNX",
-    toCity: "清迈",
-    departure: "18:40",
-    arrival: "次日 07:40",
-    mode: "TRAIN",
-    note: "请提前核对出发车站、车次、站台和取票方式。"
-  },
-  {
-    label: "TRAIN 05 / 08",
-    type: "夜班火车",
-    date: "2026-10-05",
-    dateLabel: "10月5日",
-    title: "清迈 → 曼谷夜班火车",
-    travelers: "lxr、熊、cxl",
-    departureDateTime: "2026-10-05T18:20:00+07:00",
-    provider: "泰国夜间火车",
-    number: "车次待核对",
-    fromCode: "CNX",
-    fromCity: "清迈",
-    toCode: "BKK",
-    toCity: "曼谷",
-    departure: "18:20",
-    arrival: "次日 06:20",
-    mode: "TRAIN",
-    note: "10月6日06:20抵达后需衔接当天国际航班。"
-  },
-  {
-    label: "FLIGHT 06 / 08",
-    type: "航班",
-    date: "2026-10-06",
-    dateLabel: "10月6日",
-    title: "国泰航空 CX750",
-    travelers: "lxr、熊",
-    departureDateTime: "2026-10-06T11:00:00+07:00",
-    provider: "国泰航空",
-    number: "CX750",
-    fromCode: "BKK",
-    fromCity: "曼谷",
-    toCode: "HKG",
-    toCity: "香港 T1",
-    departure: "11:00",
-    arrival: "15:05",
-    mode: "FLIGHT",
-    risk: true,
-    note: "夜班火车06:20抵达曼谷后衔接本航班，时间较紧；抵港后lxr、熊返回中山。"
-  },
-  {
-    label: "FLIGHT 07 / 08",
-    type: "航班",
-    date: "2026-10-06",
-    dateLabel: "10月6日",
-    title: "澳门航空 NX935",
-    travelers: "cxl",
-    departureDateTime: "2026-10-06T14:40:00+07:00",
-    provider: "澳门航空",
-    number: "NX935",
-    fromCode: "BKK",
-    fromCity: "曼谷",
-    toCode: "MFM",
-    toCity: "澳门",
-    departure: "14:40",
-    arrival: "18:25",
-    mode: "FLIGHT",
-    note: "cxl抵达澳门后返回中山。"
-  },
-  {
-    label: "FLIGHT 08 / 08",
-    type: "接驳航班",
-    date: "2026-10-08",
-    dateLabel: "10月8日",
-    title: "东方航空 MU5332",
-    travelers: "lxr",
-    departureDateTime: "2026-10-08T07:15:00+08:00",
-    provider: "东方航空",
-    number: "MU5332",
-    fromCode: "SZX",
-    fromCity: "深圳宝安 T3",
-    toCode: "PVG",
-    toCity: "上海浦东 T1",
-    departure: "07:15",
-    arrival: "09:45",
-    mode: "FLIGHT",
-    note: "lxr需提前从中山前往深圳宝安机场，送机时间待确认。"
-  }
-],
-
-      segments: [
-        {
-          date: "9月29日",
-          provider: "东方航空",
-          number: "MU5343 · 仅lxr",
-          fromCode: "PVG",
-          fromCity: "上海浦东T1",
-          toCode: "SZX",
-          toCity: "深圳宝安T3",
-          departure: "14:40",
-          arrival: "17:30",
-          mode: "FLIGHT"
-        },
-        {
-          date: "9月29日",
-          provider: "香港航空",
-          number: "HX767 · lxr、熊",
-          fromCode: "HKG",
-          fromCity: "香港T2",
-          toCode: "BKK",
-          toCity: "曼谷",
-          departure: "23:40",
-          arrival: "次日 01:40",
-          mode: "FLIGHT"
-        },
-        {
-          date: "10月6日",
-          provider: "国泰航空",
-          number: "CX750 · lxr、熊",
-          fromCode: "BKK",
-          fromCity: "曼谷",
-          toCode: "HKG",
-          toCity: "香港T1",
-          departure: "11:00",
-          arrival: "15:05",
-          mode: "FLIGHT"
-        },
-        {
-          date: "10月8日",
-          provider: "东方航空",
-          number: "MU5332 · 仅lxr",
-          fromCode: "SZX",
-          fromCity: "深圳宝安T3",
-          toCode: "PVG",
-          toCity: "上海浦东T1",
-          departure: "07:15",
-          arrival: "09:45",
-          mode: "FLIGHT"
-        }
-      ]
+    {
+      label: "FLIGHT 01 / 08",
+      type: "航班",
+      date: "2026-09-29",
+      dateLabel: "9月29日",
+      title: "东方航空 MU5343",
+      travelers: "lxr",
+      departureDateTime: "2026-09-29T14:40:00+08:00",
+      provider: "东方航空",
+      number: "MU5343",
+      fromCode: "PVG",
+      fromCity: "上海浦东 T1",
+      toCode: "SZX",
+      toCity: "深圳宝安 T3",
+      departure: "14:40",
+      arrival: "17:30",
+      mode: "FLIGHT",
+      note: "抵达深圳后，lxr需前往香港机场衔接HX767。"
     },
     {
-      label: "FLIGHT 02 / 03",
-      title: "cxl · 往返航班",
+      label: "FLIGHT 02 / 08",
+      type: "航班",
+      date: "2026-09-29",
+      dateLabel: "9月29日",
+      title: "澳门航空 NX992",
       travelers: "cxl",
-
-      departures: [
-        "2026-09-29T18:55:00+08:00",
-        "2026-10-06T14:40:00+07:00"
-      ],
-
-      segments: [
-        {
-          date: "9月29日",
-          provider: "澳门航空",
-          number: "NX992",
-          fromCode: "MFM",
-          fromCity: "澳门",
-          toCode: "BKK",
-          toCity: "曼谷",
-          departure: "18:55",
-          arrival: "21:10",
-          mode: "FLIGHT"
-        },
-        {
-          date: "10月6日",
-          provider: "澳门航空",
-          number: "NX935",
-          fromCode: "BKK",
-          fromCity: "曼谷",
-          toCode: "MFM",
-          toCity: "澳门",
-          departure: "14:40",
-          arrival: "18:25",
-          mode: "FLIGHT"
-        }
-      ]
+      departureDateTime: "2026-09-29T18:55:00+08:00",
+      provider: "澳门航空",
+      number: "NX992",
+      fromCode: "MFM",
+      fromCity: "澳门",
+      toCode: "BKK",
+      toCity: "曼谷",
+      departure: "18:55",
+      arrival: "21:10",
+      mode: "FLIGHT",
+      note: "抵达曼谷素万纳普机场。"
     },
     {
-      label: "TRAIN 03 / 03",
-      title: "全员 · 往返夜间火车",
+      label: "FLIGHT 03 / 08",
+      type: "航班",
+      date: "2026-09-29",
+      dateLabel: "9月29日",
+      title: "香港航空 HX767",
+      travelers: "lxr、熊",
+      departureDateTime: "2026-09-29T23:40:00+08:00",
+      provider: "香港航空",
+      number: "HX767",
+      fromCode: "HKG",
+      fromCity: "香港 T2",
+      toCode: "BKK",
+      toCity: "曼谷",
+      departure: "23:40",
+      arrival: "次日 01:40",
+      mode: "FLIGHT",
+      note: "跨日航班，9月30日01:40抵达曼谷。"
+    },
+    {
+      label: "TRAIN 04 / 08",
+      type: "夜班火车",
+      date: "2026-10-02",
+      dateLabel: "10月2日",
+      title: "曼谷 → 清迈夜班火车",
       travelers: "lxr、熊、cxl",
-
-      departures: [
-        "2026-10-02T18:40:00+07:00",
-        "2026-10-05T18:20:00+07:00"
-      ],
-
-      segments: [
-        {
-          date: "10月2日",
-          provider: "红丝绒夜间火车",
-          number: "车次待核对",
-          fromCode: "BKK",
-          fromCity: "曼谷",
-          toCode: "CNX",
-          toCity: "清迈",
-          departure: "18:40",
-          arrival: "次日 07:40",
-          mode: "TRAIN"
-        },
-        {
-          date: "10月5日",
-          provider: "夜间火车",
-          number: "车次待核对",
-          fromCode: "CNX",
-          fromCity: "清迈",
-          toCode: "BKK",
-          toCity: "曼谷",
-          departure: "18:20",
-          arrival: "次日 06:20",
-          mode: "TRAIN"
-        }
-      ]
+      departureDateTime: "2026-10-02T18:40:00+07:00",
+      provider: "红丝绒夜间火车",
+      number: "车次待核对",
+      fromCode: "BKK",
+      fromCity: "曼谷",
+      toCode: "CNX",
+      toCity: "清迈",
+      departure: "18:40",
+      arrival: "次日 07:40",
+      mode: "TRAIN",
+      note: "请提前核对出发车站、车次、站台和取票方式。"
+    },
+    {
+      label: "TRAIN 05 / 08",
+      type: "夜班火车",
+      date: "2026-10-05",
+      dateLabel: "10月5日",
+      title: "清迈 → 曼谷夜班火车",
+      travelers: "lxr、熊、cxl",
+      departureDateTime: "2026-10-05T18:20:00+07:00",
+      provider: "泰国夜间火车",
+      number: "车次待核对",
+      fromCode: "CNX",
+      fromCity: "清迈",
+      toCode: "BKK",
+      toCity: "曼谷",
+      departure: "18:20",
+      arrival: "次日 06:20",
+      mode: "TRAIN",
+      note: "10月6日06:20抵达后需衔接当天国际航班。"
+    },
+    {
+      label: "FLIGHT 06 / 08",
+      type: "航班",
+      date: "2026-10-06",
+      dateLabel: "10月6日",
+      title: "国泰航空 CX750",
+      travelers: "lxr、熊",
+      departureDateTime: "2026-10-06T11:00:00+07:00",
+      provider: "国泰航空",
+      number: "CX750",
+      fromCode: "BKK",
+      fromCity: "曼谷",
+      toCode: "HKG",
+      toCity: "香港 T1",
+      departure: "11:00",
+      arrival: "15:05",
+      mode: "FLIGHT",
+      note: "夜班火车06:20抵达曼谷后衔接本航班；抵港后lxr、熊返回中山。"
+    },
+    {
+      label: "FLIGHT 07 / 08",
+      type: "航班",
+      date: "2026-10-06",
+      dateLabel: "10月6日",
+      title: "澳门航空 NX935",
+      travelers: "cxl",
+      departureDateTime: "2026-10-06T14:40:00+07:00",
+      provider: "澳门航空",
+      number: "NX935",
+      fromCode: "BKK",
+      fromCity: "曼谷",
+      toCode: "MFM",
+      toCity: "澳门",
+      departure: "14:40",
+      arrival: "18:25",
+      mode: "FLIGHT",
+      note: "cxl抵达澳门后返回中山。"
+    },
+    {
+      label: "FLIGHT 08 / 08",
+      type: "接驳航班",
+      date: "2026-10-08",
+      dateLabel: "10月8日",
+      title: "东方航空 MU5332",
+      travelers: "lxr",
+      departureDateTime: "2026-10-08T07:15:00+08:00",
+      provider: "东方航空",
+      number: "MU5332",
+      fromCode: "SZX",
+      fromCity: "深圳宝安 T3",
+      toCode: "PVG",
+      toCity: "上海浦东 T1",
+      departure: "07:15",
+      arrival: "09:45",
+      mode: "FLIGHT",
+      note: "lxr需提前从中山前往深圳宝安机场，送机时间待确认。"
     }
   ],
 
@@ -392,7 +254,7 @@ window.TRIP_DATA = {
     {
       datetime: "2026-10-06T06:20:00+07:00",
       title: "夜间火车抵达曼谷并前往机场",
-      icon: "⚠️"
+      icon: "🚆"
     },
     {
       datetime: "2026-10-06T11:00:00+07:00",
@@ -494,8 +356,7 @@ window.TRIP_DATA = {
       to: "香港国际机场 T1",
       departure: "11:00",
       arrival: "15:05",
-      status: "已确认",
-      risk: true
+      status: "已确认"
     },
     {
       date: "2026-10-06",
@@ -832,16 +693,12 @@ window.TRIP_DATA = {
       date: "2026-10-06",
       city: "曼谷→香港／澳门／中山",
       title: "泰国行程返程",
-      risk: true,
-
-      warning:
-        "06:20抵达曼谷后，lxr、熊衔接11:00国际航班。必须核实到达车站、机场交通、值机截止时间及火车晚点替代方案。",
 
       items: [
         {
           time: "06:20",
           title: "夜间火车抵达曼谷",
-          note: "实际到站时间和准点率待确认。"
+          note: "实际到站时间待确认。"
         },
         {
           time: "抵达后",
@@ -1004,7 +861,7 @@ window.TRIP_DATA = {
       date: "2026-10-05",
       time: "18:20",
       status: "已预订",
-      note: "预计次日06:20抵达，需制定晚点预案。"
+      note: "预计次日06:20抵达。"
     },
     {
       name: "Skyline丛林飞跃",
@@ -1041,7 +898,6 @@ window.TRIP_DATA = {
     "确认HX767值机截止时间及跨境预留时间",
     "确认10月6日曼谷火车站至机场路线和耗时",
     "确认CX750值机截止时间",
-    "制定夜间火车晚点替代方案",
     "确认10月6日香港前往中山的交通方式",
     "确认10月8日中山前往深圳机场的送机时间",
     "确认东方航空MU5343及MU5332的行李额度",
