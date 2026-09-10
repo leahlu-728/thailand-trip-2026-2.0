@@ -208,7 +208,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getNextCardDeparture(card) {
-    const now = new Date();
+  const departure = new Date(card.departureDateTime);
+  return departure > new Date() ? departure : null;
+}
 
     return card.departures
       .map((date) => new Date(date))
@@ -217,122 +219,128 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderJourneyCards() {
-    const track = $("#journey-track");
+  const track = $("#journey-track");
 
-    track.innerHTML = data.journeyCards
-      .map((card) => {
-        const segments = card.segments
-          .map(
-            (segment) => `
-              <section class="journey-segment">
-                <div class="segment-meta">
-                  <span>${escapeHtml(segment.date)}</span>
+  track.innerHTML = data.journeyCards
+    .map((card) => {
+      const icon = card.mode === "TRAIN" ? "🚆" : "✈️";
 
-                  <span>
-                    ${escapeHtml(segment.provider)}
-                    ·
-                    ${escapeHtml(segment.number)}
-                  </span>
-                </div>
+      return `
+        <article class="journey-card ${card.risk ? "journey-card-risk" : ""}">
+          <div class="journey-card-top">
+            <div>
+              <p class="journey-card-label">
+                ${escapeHtml(card.label)}
+              </p>
 
-                <div class="airport-route">
-                  <div class="airport">
-                    <strong class="airport-code">
-                      ${escapeHtml(segment.fromCode)}
-                    </strong>
-
-                    <span class="airport-city">
-                      ${escapeHtml(segment.fromCity)}
-                    </span>
-                  </div>
-
-                  <div class="route-arrow" aria-hidden="true">
-                    <span>→</span>
-                    <small>${escapeHtml(segment.mode)}</small>
-                  </div>
-
-                  <div class="airport">
-                    <strong class="airport-code">
-                      ${escapeHtml(segment.toCode)}
-                    </strong>
-
-                    <span class="airport-city">
-                      ${escapeHtml(segment.toCity)}
-                    </span>
-                  </div>
-                </div>
-
-                <div class="segment-times">
-                  <span>
-                    ${escapeHtml(segment.departure)} 出发
-                  </span>
-
-                  <span>
-                    ${escapeHtml(segment.arrival)} 抵达
-                  </span>
-                </div>
-              </section>
-            `
-          )
-          .join("");
-
-        return `
-          <article class="journey-card">
-            <p class="journey-card-label">
-              ${escapeHtml(card.label)}
-            </p>
-
-            <h3>${escapeHtml(card.title)}</h3>
-
-            <p class="journey-travelers">
-              ${escapeHtml(card.travelers)}
-            </p>
-
-            ${segments}
-
-            <div class="journey-countdown">
-              <span>距离本组下一段出发</span>
-
-              <strong
-                data-card-countdown="${escapeHtml(card.title)}"
-              >
-                正在计算
-              </strong>
+              <h3>${escapeHtml(card.title)}</h3>
             </div>
-          </article>
-        `;
-      })
-      .join("");
 
-    $("#journey-dots").innerHTML = data.journeyCards
-      .map(
-        (_, index) => `
-          <button
-            class="journey-dot ${index === 0 ? "active" : ""}"
-            type="button"
-            data-slide="${index}"
-            aria-label="查看第${index + 1}张交通卡"
-          ></button>
-        `
-      )
-      .join("");
+            <span class="journey-mode-icon" aria-hidden="true">
+              ${icon}
+            </span>
+          </div>
 
-    setupJourneySlider();
-    updateJourneyCountdowns();
-  }
+          <div class="segment-meta">
+            <span>${escapeHtml(card.dateLabel)}</span>
 
-  function updateJourneyCountdowns() {
-    document
-      .querySelectorAll("[data-card-countdown]")
-      .forEach((element, index) => {
-        const card = data.journeyCards[index];
-        const next = getNextCardDeparture(card);
+            <span>
+              ${escapeHtml(card.type)}
+              ·
+              ${escapeHtml(card.travelers)}
+            </span>
+          </div>
 
-        element.textContent = next
-          ? formatDuration(next - new Date())
-          : "本组行程已结束";
-      });
-  }
+          <div class="airport-route single-route">
+            <div class="airport">
+              <strong class="airport-code">
+                ${escapeHtml(card.fromCode)}
+              </strong>
+
+              <span class="airport-city">
+                ${escapeHtml(card.fromCity)}
+              </span>
+            </div>
+
+            <div class="route-arrow" aria-hidden="true">
+              <span>→</span>
+              <small>${escapeHtml(card.mode)}</small>
+            </div>
+
+            <div class="airport">
+              <strong class="airport-code">
+                ${escapeHtml(card.toCode)}
+              </strong>
+
+              <span class="airport-city">
+                ${escapeHtml(card.toCity)}
+              </span>
+            </div>
+          </div>
+
+          <div class="segment-times">
+            <span>${escapeHtml(card.departure)} 出发</span>
+            <span>${escapeHtml(card.arrival)} 抵达</span>
+          </div>
+
+          <p class="journey-note">
+            ${escapeHtml(card.note)}
+          </p>
+
+          ${
+            card.risk
+              ? `
+                <div class="journey-risk">
+                  ⚠️ 交通衔接风险，请提前准备替代方案
+                </div>
+              `
+              : ""
+          }
+
+          <div class="journey-countdown">
+            <span>距离出发</span>
+
+            <strong data-card-countdown>
+              正在计算
+            </strong>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+
+  $("#journey-dots").innerHTML = data.journeyCards
+    .map(
+      (_, index) => `
+        <button
+          class="journey-dot ${index === 0 ? "active" : ""}"
+          type="button"
+          data-slide="${index}"
+          aria-label="查看第${index + 1}张交通卡"
+        ></button>
+      `
+    )
+    .join("");
+
+  setupJourneySlider();
+  updateJourneyCountdowns();
+}
+  
+function updateJourneyCountdowns() {
+  const countdownElements =
+    document.querySelectorAll("[data-card-countdown]");
+
+  countdownElements.forEach((element, index) => {
+    const card = data.journeyCards[index];
+    const departure = new Date(card.departureDateTime);
+    const now = new Date();
+
+    element.textContent =
+      departure > now
+        ? formatDuration(departure - now)
+        : "本段行程已出发";
+  });
+}
 
   function setupJourneySlider() {
     const track = $("#journey-track");
