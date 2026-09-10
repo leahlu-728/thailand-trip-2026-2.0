@@ -9,7 +9,7 @@ window.TRIP_DATA = {
     {
       type: "danger",
       text:
-        "高风险衔接：10月6日06:20夜车抵达曼谷后，lxr、熊需要赶11:40国际航班。车站至机场交通时间、值机截止时间及夜车延误风险均待核实。"
+        "高风险衔接：10月6日06:20夜车抵达曼谷后，lxr、熊需要赶11:00国际航班。车站至机场交通时间、值机截止时间及夜车延误风险均待核实。"
     },
     {
       type: "warning",
@@ -96,7 +96,7 @@ window.TRIP_DATA = {
       travelers: "lxr、熊",
       from: "曼谷素万纳普机场",
       to: "香港国际机场 T1",
-      departure: "11:40",
+      departure: "11:00",
       arrival: "15:05",
       status: "已确认",
       risk: true
@@ -245,10 +245,11 @@ window.TRIP_DATA = {
           place: "Nai Lert Park Heritage Home"
         },
         {
-          time:"下午"
+          time:"下午",
           title: "Bangkok Shooting Range曼谷市区射击场",
           note: "klook,大众点评, Ctrip预定",
           place: "Bangkok Shooting Range • Phaya Thai"
+        },   
         {
           time: "退房前",
           title: "曼谷酒店退房",
