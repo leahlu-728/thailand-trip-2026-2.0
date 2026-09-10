@@ -2,15 +2,18 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1, viewport-fit=cover"
   >
+
   <meta
     name="description"
     content="2026年泰国曼谷与清迈旅行攻略"
   >
-  <meta name="theme-color" content="#0f766e">
+
+  <meta name="theme-color" content="#102631">
 
   <title>曼谷・清迈旅行攻略</title>
 
@@ -25,7 +28,7 @@
 
   <header class="hero" id="top">
     <nav class="top-nav" aria-label="主要导航">
-      <a class="brand" href="#top">🇹🇭 泰国之旅</a>
+      <a class="brand" href="#top">TH / 2026</a>
 
       <button
         id="nav-toggle"
@@ -39,194 +42,70 @@
       </button>
 
       <div class="nav-links" id="nav-links">
-        <a href="#overview">概览</a>
-        <a href="#days">每日行程</a>
-        <a href="#transport">交通</a>
+        <a href="#journey">交通</a>
+        <a href="#route-map">路线</a>
+        <a href="#days">行程</a>
         <a href="#hotels">酒店</a>
         <a href="#places">地点</a>
         <a href="#bookings">预约</a>
+        <a href="#expense">记账</a>
         <a href="#checklists">清单</a>
-        <a href="#budget">预算</a>
       </div>
     </nav>
 
     <div class="hero-content">
-      <p class="eyebrow">2026 Thailand Trip</p>
+      <p class="eyebrow">THAILAND · 2026</p>
+
       <h1 id="trip-title">曼谷・清迈旅行攻略</h1>
-      <p id="trip-dates" class="hero-dates"></p>
+
+      <p id="trip-dates" class="hero-date"></p>
       <p id="trip-travelers" class="hero-travelers"></p>
 
-      <div id="countdown" class="countdown" aria-live="polite"></div>
+      <div
+        id="hero-countdown"
+        class="hero-countdown"
+        aria-live="polite"
+      >
+        正在计算出发倒计时
+      </div>
 
       <div class="hero-actions">
-        <a class="button button-primary" href="#days">查看每日行程</a>
-        <a class="button button-glass" href="#checklists">打开出发清单</a>
+        <a class="button button-primary" href="#next-trip">
+          查看下一项
+        </a>
+
+        <a class="button button-glass" href="#days">
+          每日行程
+        </a>
       </div>
     </div>
   </header>
+
+  <aside
+    class="next-trip-bar"
+    id="next-trip"
+    aria-live="polite"
+  >
+    <div class="next-trip-inner">
+      <span class="next-trip-icon" id="next-trip-icon">⏱</span>
+
+      <div class="next-trip-content">
+        <span class="next-trip-label">NEXT · 下一项行程</span>
+
+        <strong class="next-trip-title" id="next-trip-title">
+          正在计算下一项行程
+        </strong>
+      </div>
+
+      <div class="next-trip-meta">
+        <span id="next-trip-time"></span>
+        <strong id="next-trip-countdown"></strong>
+      </div>
+    </div>
+  </aside>
 
   <main id="main-content">
     <section class="section" id="overview">
       <div class="section-heading">
         <div>
-          <p class="section-kicker">OVERVIEW</p>
-          <h2>行程概览</h2>
-        </div>
-        <p>旅行途中需要重点关注的信息。</p>
-      </div>
-
-      <div id="notices" class="notice-list"></div>
-      <div id="overview-grid" class="overview-grid"></div>
-    </section>
-
-    <section class="section section-tinted" id="days">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">ITINERARY</p>
-          <h2>每日详细行程</h2>
-        </div>
-        <p>日期和星期按泰国时区自动显示。</p>
-      </div>
-
-      <div id="days-list" class="day-list"></div>
-    </section>
-
-    <section class="section" id="transport">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">TRANSPORT</p>
-          <h2>航班与交通</h2>
-        </div>
-        <p>出发前请再次核对班次、车站和办理时间。</p>
-      </div>
-
-      <div id="transport-list" class="card-grid"></div>
-    </section>
-
-    <section class="section section-tinted" id="hotels">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">HOTELS</p>
-          <h2>酒店信息</h2>
-        </div>
-        <p>订单号码等敏感信息不在公开页面显示。</p>
-      </div>
-
-      <div id="hotel-list" class="card-grid"></div>
-    </section>
-
-    <section class="section" id="places">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">PLACES</p>
-          <h2>景点、餐厅与购物</h2>
-        </div>
-        <p>点击按钮可在地图中搜索地点。</p>
-      </div>
-
-      <div id="place-list"></div>
-    </section>
-
-    <section class="section section-tinted" id="bookings">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">BOOKINGS</p>
-          <h2>预约项目</h2>
-        </div>
-        <p>未确认的项目会明确标记为“待确认”。</p>
-      </div>
-
-      <div id="booking-list" class="card-grid"></div>
-    </section>
-
-    <section class="section" id="checklists">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">CHECKLIST</p>
-          <h2>待办与行李清单</h2>
-        </div>
-        <p>勾选状态仅保存在当前设备的浏览器中。</p>
-      </div>
-
-      <div class="checklist-layout">
-        <article class="panel">
-          <div class="panel-heading">
-            <div>
-              <span class="panel-icon">⚡</span>
-              <h3>紧急待办</h3>
-            </div>
-            <button
-              class="text-button"
-              type="button"
-              data-reset-list="todos"
-            >
-              重置
-            </button>
-          </div>
-
-          <div id="todo-list" class="checklist"></div>
-        </article>
-
-        <article class="panel">
-          <div class="panel-heading">
-            <div>
-              <span class="panel-icon">🎒</span>
-              <h3>行李清单</h3>
-            </div>
-            <button
-              class="text-button"
-              type="button"
-              data-reset-list="packing"
-            >
-              重置
-            </button>
-          </div>
-
-          <div id="packing-list" class="checklist"></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section section-tinted" id="budget">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">BUDGET</p>
-          <h2>预算概览</h2>
-        </div>
-        <p>所有金额仅作记录，价格请在出发前再次核对。</p>
-      </div>
-
-      <div id="budget-content"></div>
-    </section>
-
-    <section class="section" id="emergency">
-      <div class="section-heading">
-        <div>
-          <p class="section-kicker">EMERGENCY</p>
-          <h2>紧急信息</h2>
-        </div>
-        <p>建议出发前补充保险、领事保护和同行人联系方式。</p>
-      </div>
-
-      <div id="emergency-content"></div>
-    </section>
-
-    <section class="section compact-section">
-      <div class="global-reminder">
-        <strong>出发前统一复核</strong>
-        <p>
-          价格、营业时间、预约状态、签证要求、入境政策、
-          行李规定和交通规则可能发生变化，请以官方最新信息为准。
-        </p>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <p>曼谷・清迈旅行攻略 · 2026</p>
-
-    <p>请勿在公开页面上传护照号码、支付信息或完整订单二维码。</p>
-    <a href="#top">返回顶部 ↑</a>
-  </footer>
-</body>
-</html>
+          <
